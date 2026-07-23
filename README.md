@@ -12,7 +12,7 @@ Spring Boot Starter For Maven Embedder
 
 ``` xml
 <dependency>
-	<groupId>com.github.hiwepy</groupId>
+	<groupId>io.github.easy4j</groupId>
 	<artifactId>maven-embedder-spring-boot-starter</artifactId>
 	<version>${project.version}</version>
 </dependency>
