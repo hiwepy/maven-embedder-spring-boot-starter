@@ -24,7 +24,7 @@ import java.io.PrintStream;
 
 /**
  *	嵌入式的Maven集成（基于MavenCli）
- * 	@author ： <a href="https://github.com/hiwepy">hiwepy</a>
+ * @author [@Loong Wan](https://github.com/loong10k)
  */
 public class MavenCliTemplate {
 
