@@ -51,6 +51,7 @@ import java.util.regex.Pattern;
  * @author Patrick Peralta
  * @author Venil Noronha
  */
+/**\n * Represents a Maven resource with its coordinates and metadata.\n *\n * @author [@Loong Wan](https://github.com/loong10k)\n * @since 1.0.0\n */
 public class MavenResource {
 
 	public static String URI_SCHEME = "maven";
