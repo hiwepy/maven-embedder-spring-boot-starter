@@ -25,6 +25,7 @@ import java.io.PrintStream;
 /**
  *	嵌入式的Maven集成（基于MavenCli）
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
+ * @since 1.0.0
  */
 public class MavenCliTemplate {
 
@@ -35,6 +36,10 @@ public class MavenCliTemplate {
 		this.outputHandler = outputHandler;
 		this.errorHandler = errorHandler;
 	}
+	/**
+	 * <p>Do before.</p>
+	 * @return the static void
+	 */
 
 	private static void doBefore() {
 
@@ -54,11 +59,22 @@ public class MavenCliTemplate {
 			System.setProperty("maven.multiModuleProjectDirectory", mavenHomeProperty);
 		}
 	}
+	/**
+	 * <p>Install.</p>
+	 * @param filepath the filepath
+	 * @param coordinates the coordinates
+	 * @return the int
+	 */
 
 	public int install(String filepath, String coordinates)  {
 		Assert.notNull(coordinates, "coordinates must not be null");
 		return this.install(MavenResource.parse(filepath, coordinates));
 	}
+	/**
+	 * <p>Install.</p>
+	 * @param resource the resource
+	 * @return the int
+	 */
 	
 	public int install(MavenResource resource)  {
 		
@@ -80,6 +96,14 @@ public class MavenCliTemplate {
 		return result;
 		
 	}
+	/**
+	 * <p>Deploy.</p>
+	 * @param filepath the filepath
+	 * @param coordinates the coordinates
+	 * @param repositoryUrl the repository url
+	 * @param repositoryId the repository id
+	 * @return the int
+	 */
 	  
 	public int deploy(String filepath, String coordinates, String repositoryUrl, String repositoryId) {
 		Assert.notNull(coordinates, "coordinates must not be null");
@@ -88,6 +112,11 @@ public class MavenCliTemplate {
 		resource.setRepositoryUrl(repositoryUrl);
 		return this.deploy(resource);
 	}
+	/**
+	 * <p>Deploy.</p>
+	 * @param resource the resource
+	 * @return the int
+	 */
 
 	public int deploy(MavenResource resource) {
  
@@ -109,6 +138,12 @@ public class MavenCliTemplate {
 
 		return result;
 	}
+	/**
+	 * <p>Execute.</p>
+	 * @param workingDirectory the working directory
+	 * @param goals the goals
+	 * @return the int
+	 */
 
 	public int execute(String workingDirectory, String... goals) {
 		

@@ -51,45 +51,6 @@ import java.util.regex.Pattern;
  * @author Patrick Peralta
  * @author Venil Noronha
  */
-/**\n * Represents a Maven resource with its coordinates and metadata.\n *\n * @author <a href="https://github.com/loong10k">Loong Wan</a>\n * @since 1.0.0\n */
-public class MavenResource {
-
-	public static String URI_SCHEME = "maven";
-
-	/*
-	 * The default extension for the artifact.
-	 */
-	final static String DEFAULT_EXTENSION = "jar";
-
-	/*
-	 * String representing an empty classifier.
-	 */
-	final static String EMPTY_CLASSIFIER = "";
-
-	/*
-	 * Group ID for artifact; generally this includes the name of the
-	 * organization that generated the artifact.
-	 */
-	private final String groupId;
-
-	/*
-	 * Artifact ID; generally this includes the name of the app or library.
-	 */
-	private final String artifactId;
-
-	/*
-	 * Extension of the artifact.
-	 */
-	private final String extension;
-
-	/*
-	 * Classifier of the artifact.
-	 */
-	private final String classifier;
-
-	/*
-	 * Version of the artifact.
-	 */
 	private final String version;
 	
 	private boolean generatePom;
@@ -136,34 +97,6 @@ public class MavenResource {
 
 	/*
 	 * @see #groupId
-	 */
-	public String getGroupId() {
-		return groupId;
-	}
-
-	/*
-	 * @see #artifactId
-	 */
-	public String getArtifactId() {
-		return artifactId;
-	}
-
-	/*
-	 * @see #extension
-	 */
-	public String getExtension() {
-		return extension;
-	}
-
-	/*
-	 * @see #version
-	 */
-	public String getClassifier() {
-		return classifier;
-	}
-
-	/*
-	 * @see #version
 	 */
 	public String getVersion() {
 		return version;
@@ -226,39 +159,6 @@ public class MavenResource {
 				this.classifier.equals(that.classifier) &&
 				this.version.equals(that.version);
 	}
-
-	@Override
-	public int hashCode() {
-		int result = groupId.hashCode();
-		result = 31 * result + artifactId.hashCode();
-		result = 31 * result + extension.hashCode();
-		if (StringUtils.hasLength(classifier)) {
-			result = 31 * result + classifier.hashCode();
-		}
-		result = 31 * result + version.hashCode();
-		return result;
-	}
-
-	/*
-	 * Returns the coordinates encoded as
-	 * &lt;groupId&gt;:&lt;artifactId&gt;[:&lt;extension&gt;[:&lt;classifier&gt;]]:&lt;version&gt;,
-	 * conforming to the <a href="https://www.eclipse.org/aether">Aether</a> convention.
-	 */
-	@Override
-	public String toString() {
-		return StringUtils.hasLength(classifier) ?
-				String.format("%s:%s:%s:%s:%s", groupId, artifactId, extension, classifier, version) :
-				String.format("%s:%s:%s:%s", groupId, artifactId, extension, version);
-	}
-
-	/*
-	 * Create a {@link MavenResource} for the provided coordinates and properties.
-	 *
-	 * @param filepath the path for the file
-	 * @param coordinates coordinates encoded as &lt;groupId&gt;:&lt;artifactId&gt;[:&lt;extension&gt;[:&lt;classifier&gt;]]:&lt;version&gt;,
-	 * conforming to the <a href="https://www.eclipse.org/aether">Aether</a> convention.
-	 * @return the {@link MavenResource}
-	 */
 	public static MavenResource parse(String filepath, String coordinates) {
 		Assert.hasText(coordinates, "coordinates are required");
 		Pattern p = Pattern.compile("([^: ]+):([^: ]+)(:([^: ]*)(:([^: ]+))?)?:([^: ]+)");
@@ -274,6 +174,12 @@ public class MavenResource {
 		return new MavenResource(FilenameUtils.getBaseName(filepath), filepath, groupId, artifactId, extension, classifier, version, false, false, "", "");
 	}
 
+	/**
+	 * <p>Builder for constructing builder instances.</p>
+	 *
+	 * @author <a href="https://github.com/loong10k">Loong Wan</a>
+	 * @since 1.0.0
+	 */
 	public static class Builder {
 
 		private String groupId;
@@ -300,61 +206,120 @@ public class MavenResource {
 		
 		public Builder() {
 		}
+		/**
+		 * <p>Group id.</p>
+		 * @param groupId the group id
+		 * @return the builder
+		 */
 
 		public Builder groupId(String groupId) {
 			this.groupId = groupId;
 			return this;
 		}
+		/**
+		 * <p>Artifact id.</p>
+		 * @param artifactId the artifact id
+		 * @return the builder
+		 */
 
 		public Builder artifactId(String artifactId) {
 			this.artifactId = artifactId;
 			return this;
 		}
+		/**
+		 * <p>Extension.</p>
+		 * @param extension the extension
+		 * @return the builder
+		 */
 
 		public Builder extension(String extension) {
 			this.extension = extension;
 			return this;
 		}
+		/**
+		 * <p>Classifier.</p>
+		 * @param classifier the classifier
+		 * @return the builder
+		 */
 
 		public Builder classifier(String classifier) {
 			this.classifier = classifier;
 			return this;
 		}
+		/**
+		 * <p>Version.</p>
+		 * @param version the version
+		 * @return the builder
+		 */
 
 		public Builder version(String version) {
 			this.version = version;
 			return this;
 		}
+		/**
+		 * <p>Working directory.</p>
+		 * @param workingDirectory the working directory
+		 * @return the builder
+		 */
 		
 		public Builder workingDirectory(String workingDirectory) {
 			this.workingDirectory = workingDirectory;
 			return this;
 		}
+		/**
+		 * <p>Generate pom.</p>
+		 * @param generatePom the generate pom
+		 * @return the builder
+		 */
 		
 		public Builder generatePom(boolean generatePom) {
 			this.generatePom = generatePom;
 			return this;
 		}
+		/**
+		 * <p>Create checksum.</p>
+		 * @param createChecksum the create checksum
+		 * @return the builder
+		 */
 		
 		public Builder createChecksum(boolean createChecksum) {
 			this.createChecksum = createChecksum;
 			return this;
 		}
+		/**
+		 * <p>Filepath.</p>
+		 * @param filepath the filepath
+		 * @return the builder
+		 */
 		
 		public Builder filepath(String filepath) {
 			this.filepath = filepath;
 			return this;
 		}
+		/**
+		 * <p>Repository url.</p>
+		 * @param repositoryUrl the repository url
+		 * @return the builder
+		 */
 		
 		public Builder repositoryUrl(String repositoryUrl) {
 			this.repositoryUrl = repositoryUrl;
 			return this;
 		}
+		/**
+		 * <p>Repository id.</p>
+		 * @param repositoryId the repository id
+		 * @return the builder
+		 */
 		
 		public Builder repositoryId(String repositoryId) {
 			this.repositoryId = repositoryId;
 			return this;
 		}
+		/**
+		 * <p>Build.</p>
+		 * @return the maven resource
+		 */
 
 		public MavenResource build() {
 			return new MavenResource(workingDirectory, filepath, groupId, artifactId, extension, classifier, version, 
